@@ -14,8 +14,8 @@ class VistaVenta(Resource):
         venta = Venta.query.filter(Venta.id == id_venta).first()
 
         if venta is not None:
-            fecha_pedido = datetime.strptime(request.json['fecha_pedido'], '%Y-%m-%d')
-            fecha_limite = datetime.strptime(request.json['fecha_limite'], '%Y-%m-%d')
+            fecha_pedido = datetime.strptime(request.json['fecha_pedido'], '%d/%m/%Y')
+            fecha_limite = datetime.strptime(request.json['fecha_limite'], '%d/%m/%Y')
             estado = EstadoVenta(request.json['estado'])
 
             venta.fecha_pedido = fecha_pedido if fecha_pedido is not None else venta.fecha_pedido
@@ -44,7 +44,7 @@ class VistaVenta(Resource):
 class VistaVentas(Resource):
     def get(self):
         ventas = Venta.query.all()
-        return [venta_schema.dumps(venta) for venta in ventas]
+        return [venta_schema.dump(venta) for venta in ventas]
     
     def post(self):
         fecha_pedido = datetime.strptime(request.json['fecha_pedido'], '%d/%m/%Y')
