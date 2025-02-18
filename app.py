@@ -1,6 +1,6 @@
 from flask_restful import Api
-from microservicioVenta import create_app
-from .modelos import db
+from . import create_app
+from .microservicioVenta.modelos import db
 
 app = create_app('default')
 app_context = app.app_context()

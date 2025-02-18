@@ -11,10 +11,10 @@ class EstadoVenta(enum.Enum):
     ENTREGADO = 3
     CANCELADO = 4
 
-class Venta(db.model):
+class Venta(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    fecha_pedido = db.Column(db.Datetime)
-    fecha_limite = db.Column(db.Datetime)
+    fecha_pedido = db.Column(db.DateTime)
+    fecha_limite = db.Column(db.DateTime)
     estado = db.Column(db.Enum(EstadoVenta))
 
 class EnumDiccionario(fields.Field):
