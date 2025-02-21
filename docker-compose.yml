@@ -1,0 +1,28 @@
+services:
+  microservicioventa:
+    build:
+      context: ./microservicioventa
+    ports:
+      - "5000:5000"
+    networks:
+      - red_experimento
+
+  monitor:
+    build:
+      context: ./monitor
+    depends_on:
+      - microservicioventa
+    networks:
+      - red_experimento
+
+  simulador:
+    build:
+      context: ./simulador
+    depends_on:
+      - microservicioventa
+    networks:
+      - red_experimento
+
+networks:
+  red_experimento:
+    driver: bridge

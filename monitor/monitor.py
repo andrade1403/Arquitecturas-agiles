@@ -30,10 +30,10 @@ def Monitor_Init():
 
 
 def EstadoConexion():
-    URL = "http://127.0.0.1:5000/ventas"
+    URL = 'http://localhost:5000/ventas'
     tiempo = 3
     try:
-        respuesta = requests.get(URL, timeout=tiempo).status_code 
+        respuesta = requests.get(URL, timeout = tiempo).status_code 
     except Exception as e:
         respuesta = 0
 
