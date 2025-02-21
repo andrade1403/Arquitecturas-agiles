@@ -11,7 +11,5 @@ db.init_app(app)
 db.create_all()
 
 api = Api(app)
-api.add_resource(VistaVenta, '/venta/<int:id_venta>')
+api.add_resource(VistaVenta, '/ventas/<int:id_venta>')
 api.add_resource(VistaVentas, '/ventas')
-ventas = Venta.query.all()
-print(ventas[0].id, ventas[0].estado, ventas[0].fecha_pedido, ventas[0].fecha_limite)
