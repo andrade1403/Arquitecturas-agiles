@@ -1,9 +1,7 @@
-import os
 import requests
 import pandas as pd
 from dateutil import parser
 from datetime import timedelta
-import matplotlib.pyplot as plt
 
 #Funciones
 def modificarFechas(fecha):
