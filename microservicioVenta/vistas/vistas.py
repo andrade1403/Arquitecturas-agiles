@@ -2,10 +2,10 @@ import random
 from flask import request
 from datetime import datetime
 from flask_restful import Resource
-from ..modelos import db, Venta, VentasSchema, EstadoVenta
+from modelos import db, Venta, VentasSchema, EstadoVenta
 
 venta_schema = VentasSchema()
-
+is_available = True 
 class VistaVenta(Resource):
     def get(self, id_venta):
         venta = Venta.query.filter(Venta.id == id_venta).first()
@@ -72,3 +72,19 @@ class VistaVentas(Resource):
         db.session.commit()
 
         return venta_schema.dump(nueva_venta)
+
+class HealthCheck(Resource):
+    def get(self):
+        if is_available:
+            return '', 200
+        else:
+            return 'state: failed', 503
+
+    def post(self):
+        global is_available
+        if is_available:
+            is_available = False
+            return 'state: failed', 200
+        else:
+            is_available = True
+            return 'state: up', 200

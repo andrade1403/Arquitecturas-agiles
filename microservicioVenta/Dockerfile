@@ -1,12 +1,11 @@
 # Usamos una imagen de Python
-FROM python:3.12.4  
+FROM python:3.12.4-slim
 
 # Establecemos el directorio de trabajo
 WORKDIR /app
 
 # Copiamos los archivos
 COPY . .
-
 # Instalamos las dependencias
 RUN pip install -r requirements.txt
 
