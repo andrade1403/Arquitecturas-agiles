@@ -51,4 +51,10 @@ if __name__ == '__main__':
     data['slackSendTime'] = list(map(modificarFechas, data['slackSendTime']))
     data['errorDetectionTime'] = list(map(modificarFechas, data['errorDetectionTime']))
 
+    #Calculamos la diferencia entre hora de detección de error y hora de envío de slack
+    data['diferencia'] = data['slackSendTime'] - data['errorDetectionTime']
+    data['diferencia_segundos'] = data['diferencia'].dt.total_seconds()
+
+    #Volvemos a exportar el archivo
+    data.to_excel('datos_experimento.xlsx', index = False)
     print(data)
