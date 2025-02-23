@@ -3,6 +3,7 @@ import requests
 import pandas as pd
 from dateutil import parser
 from datetime import timedelta
+import matplotlib.pyplot as plt
 
 #Funciones
 def modificarFechas(fecha):
@@ -20,7 +21,7 @@ def modificarFechas(fecha):
 
 if __name__ == '__main__':
     #Definimos flag para volver a traer los datos
-    flag = False
+    flag = True
 
     #Definimos la URL para consumir los datos del experimento
     url = 'https://prevebsabackend.azurewebsites.net/api/HealthReports'
@@ -55,6 +56,27 @@ if __name__ == '__main__':
     data['diferencia'] = data['slackSendTime'] - data['errorDetectionTime']
     data['diferencia_segundos'] = data['diferencia'].dt.total_seconds()
 
+    #Quitamos la columna de diferencia
+    data = data.drop(['diferencia'], axis = 1)
+
+    #Ordenamos de manera ascendente por el requestTime
+    data = data.sort_values(by = 'requestTime', ascending = True)
+
+    #Quitamos zonahoraria en columnas de fecha
+    cols_fechas = ['requestTime', 'slackSendTime', 'errorDetectionTime']
+
+    for col in cols_fechas:
+        data[col] = data[col].dt.tz_localize(None)
+
+    #Extraemos la hora de la fecha
+    data['hora_request'] = data['requestTime'].dt.strftime('%H:%M:%S')
+
+    #Cambiamos el valor de isAvailabel
+    data['isAvailable'] = list(map(lambda x: 0 if x is True else 1, data['isAvailable']))
+
+    #Reorganizamos dataframe
+    data = data[['id', 'requestTime', 'statusCode', 'errorDetectionTime', 'slackSendTime', 'status', 
+                 'created', 'updated', 'isAvailable', 'hora_request', 'diferencia_segundos']]
+    
     #Volvemos a exportar el archivo
     data.to_excel('datos_experimento.xlsx', index = False)
-    print(data)
