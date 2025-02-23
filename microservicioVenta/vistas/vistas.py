@@ -12,9 +12,6 @@ class VistaVenta(Resource):
         return venta_schema.dump(venta)
 
     def put(self, id_venta):
-        if random.random() < 0.3:
-            while True:
-                pass
             
         venta = Venta.query.filter(Venta.id == id_venta).first()
 
@@ -48,17 +45,10 @@ class VistaVenta(Resource):
 
 class VistaVentas(Resource):
     def get(self):
-        if random.random() < 0.3:
-            while True:
-                pass
-
         ventas = Venta.query.all()
         return [venta_schema.dump(venta) for venta in ventas]
     
     def post(self):
-        if random.random() < 0.3:
-            while True:
-                pass
 
         fecha_pedido = datetime.strptime(request.json['fecha_pedido'], '%d/%m/%Y')
         fecha_limite = datetime.strptime(request.json['fecha_limite'], '%d/%m/%Y')
